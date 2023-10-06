@@ -30,12 +30,51 @@
       //console.log(marked(# markdown Previewer));
 
     function updatePreview(){
-      document.getElementById("preview").innerHTML = marked(document.getElementById("editor").value)
+      let previewElement = document.getElementById("preview");
+      let editorValue = document.getElementById("editor").value;
+      let markedUpHTML = marked(editorValue);
+      previewElement.innerHTML = markedUpHTML;
+    }
+
+    
+    function setDefault(){
+      let defaultText = `\
+# Useful Programmer
+## a markdown previewer
+[Learn more](http://www.google.com)
+<dl>
+  <dt>Definition list</dt>
+  <dd>Is something people use sometimes.</dd>
+
+  <dt>Markdown in HTML</dt>
+  <dd>Does *not* work **very** well. Use HTML <em>tags</em>.</dd>
+</dl>
+
+\`This is an example of inline code\`  
+
+\`\`\`
+function exampleOf() {
+  return multiLineCodeBlock;
+}
+\`\`\`
+
+- Code
+- All
+- Day
+
+>This is an example of block quote
+![Useful Programmer](https://cdn.becomeopedia.com/wp-content/uploads/software-developer-6521720_960_720.jpg)
+**Bolded Text**
+      `;
+      let editorField = document.getElementById("editor");
+      let previewElement = document.getElementById("preview");
+      editorField.value = defaultText;
+      previewElement.innerHTML = marked(defaultText);
     }
     </script>
 
   </head>
-  <body>
+  <body onload="setDefault()">
      <div class="container-fluid">
         <div class="row">
             <div class="col text-center text-white bg-primary">
@@ -45,8 +84,10 @@
         <div class="row">
             <div class="col-6 bg-success">
                 <p>The editor will be here</p>
-                <textarea id="editor"></textarea>
-            </div>
+                <div class="form-group">
+                  <textarea id="editor" onkeyup="updatePreview()" class="form-control"></textarea>
+                </div>
+             </div>
 
             <div class="col-6 bg-danger">
                 <p>The markdown will be here</p>
